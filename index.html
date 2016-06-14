@@ -1,0 +1,37 @@
+<html><head>
+<title>Tetris</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="apple-touch-icon-precomposed" href="http://cdn1.iconfinder.com/data/icons/CrystalClear/128x128/apps/ksirtet.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="viewport" content="target-densitydpi=device-dpi; width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+<script>
+var connection = new WebSocket('ws://'+location.hostname+':81/', ['arduino']);
+connection.onopen = function () {  
+connection.send('Connect ' + new Date());
+};
+connection.onerror = function (error) {
+console.log('WebSocket Error ', error);
+};
+connection.onmessage = function (e) {
+console.log('Server: ', e.data);
+document.getElementById("info").innerHTML = e.data;
+};
+</script>
+<style>
+button { font-size:400%; width:200px; height:130px; }
+table, td  { padding:10px; text-align:center; }
+p { font-size:200%; }
+</style>
+</head><body><table><tr>
+<td><button id="l" type="button" onclick="connection.send('l');">&#x2190;</button></td>
+<td><p id="info">Lines: -<br />Level: -</p></td>
+<td><button id="r" type="button" onclick="connection.send('r');">&#x2192;</button></td>
+</tr><tr>
+<td><button id="x" type="button" onclick="connection.send('x');">&#x21BA;</button></td>
+<td><button id="d" type="button" onclick="connection.send('d');">&#x2193;</button></td>
+<td><button id="y" type="button" onclick="connection.send('y');">&#x21BB;</button></td>
+</tr><tr>
+</tr><tr>
+<td><button id="n" type="button" onclick="connection.send('n');">new</button></td>
+</tr></body></html>
